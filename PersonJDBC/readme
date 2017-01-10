@@ -1,0 +1,32 @@
+drop sequence perseq;
+create sequence perseq nocache;
+drop table person purge;
+create table person(
+num number primary key,
+name varchar2(10),
+age number;
+gender varchar2(10),
+birth date default sysdate);
+
+insert into person values (perseq.nextval,'현주',21,'여자',to_date('96/03/05'));
+insert into person values (perseq.nextval,'영은',21,'남자',to_date('99/09/30'));
+insert into person values (perseq.nextval,'가영',21,'남자',to_date('67/03/08'));
+insert into person values (perseq.nextval,'현쮸',21,'여자',to_date('80/04/05'));
+commit;
+
+num name age  gender birth
+1	현주	  21	여자	96/03/05
+2	영은	  21	남자	99/09/30
+3	가영	  21	남자	67/03/08
+4	현쮸	  21	여자	80/04/05
+
+DTO(Data Transfer Object) 란?
+-데이터의 전달을 위해 만들어진 오브젝트
+-데이터를 담을 private 변수와 그 변수를 조작할 수 있는 getter, setter 메소드로 구성
+되어 있디.
+-bean 혹은 vo 라고 부르기도 한다.
+
+DAO(Data Access Object)란?
+-DB 를 사용해 데이터를 조회하거나 조작하는 기능을 전담하도록 만든 오브젝트
+-실질적인 DB와의 연결을 담당하는 일을 가진 객체
+-저장소에 데이터를 입력, 조회, 수정, 삭제 등 처리를 담당
