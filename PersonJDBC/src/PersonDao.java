@@ -78,30 +78,33 @@ public class PersonDao {
 		}
 	}
 	public ArrayList<PersonBean> getPersonByGender(String gender) {
+		System.out.println(gender);
 		// TODO Auto-generated method stub
 		PreparedStatement pstmt =null;
 		ResultSet rs =null;
 		String sql= 
-				"select * from person where gender=? order by num";
+				"select * from person where gender=? order by num asc";
 		// ?: 위치홀더
 		ArrayList<PersonBean>lists = new ArrayList<PersonBean>();
 		try{
 			conn= getConnection();
      		  //3.sql 분석
+			PersonBean person= new PersonBean();
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, gender);
 			rs= pstmt.executeQuery();
 
-			while(rs.next());
-			PersonBean person= new PersonBean();
-			person.setNum(rs.getInt("num"));
-			person.setName(rs.getString("name"));
-			person.setAge(rs.getInt("age"));
-			person.setGender(rs.getString("gender"));
-			person.setBirth(String.valueOf(rs.getDate("birth")));
+			while(rs.next()){
+
+			//pstmt.setString(1,person.getGender());
+ 		 person.setNum(rs.getInt("num"));
+			 person.setName(rs.getString("name"));
+		     person.setAge(rs.getInt("age"));
+		     person.setGender(rs.getString("gender"));
+			 person.setBirth(String.valueOf(rs.getDate("birth")));
 
 			lists.add(person);
-		}
+		}}
 		catch(Exception e){
 			e.printStackTrace();
 		}
@@ -199,8 +202,40 @@ public class PersonDao {
 		return cnt;
 	}
 	public int DeleteData(int num) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		
+		PreparedStatement pstmt =null;
+		String sql ="delete from person where num=?";
+		int cnt =-1;
+		try{
+			
+			conn= getConnection();
+			//conn.setAutoCommit(false);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, num);
+		
+		cnt=pstmt.executeUpdate();
+		//conn.commit();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			try{
+				conn.rollback();
+			}
+			catch(Exception e2){e2.printStackTrace();}
+		}
+		finally{
+			try{
+				if(pstmt != null){
+					pstmt.close();}
+				closeConnection();
+			}
+			catch(Exception e2){
+				e2.printStackTrace();
+				}
+			}
+		return cnt;
+	
 	}
 			}
 
