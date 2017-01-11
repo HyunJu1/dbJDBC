@@ -156,6 +156,52 @@ public class PersonDao {
 		return cnt;
 			
 		}
+	public int UpdateData(PersonBean person) {
+		System.out.println(person.getName());
+		
+		
+		PreparedStatement pstmt =null;
+		String sql ="update person set name=?,age=?,gender=?,"+
+		"birth=to_date(?,'yyyy/mm/dd')"
+				+"where num=?";
+		int cnt =-1;
+		try{
+			
+			conn= getConnection();
+			conn.setAutoCommit(false);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, person.getName());
+			pstmt.setInt(2, person.getAge());
+			pstmt.setString(3, person.getGender());
+			pstmt.setString(4, person.getBirth());
+			pstmt.setInt(5, person.getNum());
+		
+		cnt=pstmt.executeUpdate();
+		conn.commit();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			try{
+				conn.rollback();
+			}
+			catch(Exception e2){e2.printStackTrace();}
+		}
+		finally{
+			try{
+				if(pstmt != null){
+					pstmt.close();}
+				closeConnection();
+			}
+			catch(Exception e2){
+				e2.printStackTrace();
+				}
+			}
+		return cnt;
+	}
+	public int DeleteData(int num) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 			}
 
 

@@ -31,12 +31,14 @@ public class PersonMain {
 				GetPersonByGender();
 				break;
 			case 3: //정보수정
-				// UpdateData();
+				 UpdateData();
 				break;
 			case 4: //정보 삭제
-				//DeleteData();
+				DeleteData();
+				break;
 			case 5: //정보추가
-				//InsertData();
+				 InsertData();
+				 break;
 			case 6: //종료
 				System.exit(0);
 				break;
@@ -45,7 +47,9 @@ public class PersonMain {
 			}
 		}//while의 끝
 	}//int()의 끝
-	public static void main(String[] args) {
+
+
+public static void main(String[] args) {
 		PersonMain d=new PersonMain();
 
 
@@ -78,6 +82,94 @@ public class PersonMain {
 		  ShowPerson(find_gender);
 	  }
   }
+	private void InsertData() {
+		// TODO Auto-generated method stub
+		int age=0;
+		String name=null, gender= null, birth=null;
+		
+		int result=-1;
+		PersonBean person = new PersonBean();
+		System.out.println("q번호는 시퀀스로 입력됩니다(생략)");
+		System.out.print("이름 입력:");
+	     name= scan.next();
+	
+	     System.out.println("나이 입력:");
+	     age= scan.nextInt();
+	
+	     System.out.println("성별 입력:");
+	     gender=scan.next();
+	
+	     System.out.println("생년월일 입력 (yyyy/m/dd 형식으로)");
+	     birth= scan.next();
+	
+	person.setName(name);
+    person.setAge(age);
+    person.setGender(gender);
+    person.setBirth(birth);
+
+	
+	result = dao.InsertData(person);
+	if(result ==0){
+		System.out.println("데이터 삽입 실패");
+		}
+	else{
+		System.out.println("데이터 삽입 성공");
+	}
+	}
+	
+	private void UpdateData() {
+		// TODO Auto-generated method stub
+		int age=0 , num=0;
+		String name=null, gender= null, birth=null;
+		
+		int result=-1;
+		PersonBean person = new PersonBean();
+		System.out.println("수정할 번호를 입력하세요:");
+		num=scan.nextInt();
+		System.out.print("이름 입력:");
+	name= scan.next();
+	
+	System.out.println("나이 입력:");
+	age= scan.nextInt();
+	
+	System.out.println("성별 입력:");
+	gender=scan.next();
+	
+	System.out.println("생년월일 입력 (yyyy/m/dd 형식으로)");
+	birth= scan.next();
+	
+	
+	person.setNum(num);
+	person.setName(name);
+person.setAge(age);
+person.setGender(gender);
+person.setBirth(birth);
+
+	
+	result = dao.UpdateData(person);
+	if(result ==0){
+		System.out.println("수정실패");
+		}
+	else{
+		System.out.println("수정성공");
+	}
+		
+	}
+	private void DeleteData() {
+		int num=0;
+		int result=-1;
+		
+		System.out.println("삭제할 번호를 입력하세요:");
+		num=scan.nextInt();
+		result = dao.DeleteData(num);
+	   if(result ==0){
+			System.out.println("삭제실패");
+			}
+		else{
+			System.out.println("삭제성공");
+		}
+	}
+
 	
 
 }
