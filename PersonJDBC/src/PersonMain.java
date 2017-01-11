@@ -28,7 +28,7 @@ public class PersonMain {
 			ShowPerson(lists);
 			break;
 			case 2: //성별로 조회
-				//GetPersonByGender;
+				GetPersonByGender();
 				break;
 			case 3: //정보수정
 				// UpdateData();
@@ -53,19 +53,31 @@ public class PersonMain {
 	private void ShowPerson(ArrayList<PersonBean>lists){
 		String imsi =
 				"번호\t"+"이름\t"+"나이\t"+"성별\t"+"생년월일\t";
-		System.out.println(imsi);
-		for(PersonBean person : lists){
+		System.out.println(imsi);  
+		for(PersonBean person : lists){  //db table내용 출력!
+			//for(int i=0; i<lists.size(); i++){ }
+            
 			String result = 
 					person.getNum()+"\t"+
 							person.getName()+"\t"+
 							person.getAge()+"\t"+
 							person.getGender()+"\t"+
 							person.getBirth()+"\t";
-
 			System.out.println(result);
 		}
-
-
 	}
+  private void GetPersonByGender(){
+	  //2. 특정 성별만 조회
+	  String gender = null;
+	  System.out.print("찾으려는 성별 입력: ");
+	  gender = scan.next();
+	  ArrayList<PersonBean>find_gender= dao.getPersonByGender(gender);
+	  if(find_gender.size()==0){
+		  System.out.println("해당성별은 존재하지 않음");
+	  }else{
+		  ShowPerson(find_gender);
+	  }
+  }
+	
 
 }
